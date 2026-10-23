@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.bin
+*.dmg
+*.iso
+*.qcow2
+*.img
+*.log
+private/
+credentials/
