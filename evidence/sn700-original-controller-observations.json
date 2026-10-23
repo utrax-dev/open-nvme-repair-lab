@@ -1,0 +1,73 @@
+{
+  "stage": "B",
+  "model_installed_owner_confirmed": "WD Red SN700 500GB",
+  "usb_c_link_bits_per_second": 10000000000,
+  "macos_exposed_disk_initial": false,
+  "usb_c_diagnostic_first_command": "read bridge firmware version",
+  "usb_c_diagnostic_result": "libusb timeout -7 before data/status completion",
+  "usb_a_link_bits_per_second": 480000000,
+  "usb_a_initial_status_command": "Request Sense",
+  "usb_a_initial_status_result": "libusb timeout -7",
+  "single_USB_BOT_recovery": [
+    {
+      "transport": "BOT",
+      "interface": 0,
+      "alternate": 0,
+      "in_endpoint": 129,
+      "out_endpoint": 2
+    },
+    {
+      "one_USB_BOT_transport_reset_result": 0,
+      "SSD_reset_command_sent": false
+    },
+    {
+      "clear_endpoint_halt": "0x81",
+      "result": 0
+    },
+    {
+      "clear_endpoint_halt": "0x2",
+      "result": 0
+    },
+    {
+      "command": "test-unit-ready",
+      "status": 0,
+      "residue": 0,
+      "received": 0,
+      "data_accounting_matches": true,
+      "seconds": 0.000634,
+      "data_endpoint_halt_cleared": false
+    },
+    {
+      "command": "request-sense",
+      "status": 0,
+      "residue": 0,
+      "received": 18,
+      "data_accounting_matches": true,
+      "seconds": 0.000412,
+      "data_endpoint_halt_cleared": false,
+      "sense": {
+        "response_code": 112,
+        "sense_key": 0,
+        "asc": 0,
+        "ascq": 0
+      }
+    },
+    {
+      "command": "inquiry",
+      "status": 0,
+      "residue": 0,
+      "received": 36,
+      "data_accounting_matches": true,
+      "seconds": 0.000525,
+      "data_endpoint_halt_cleared": false,
+      "peripheral_qualifier": 0,
+      "peripheral_type": 0,
+      "vendor": "SanDisk",
+      "product": "Extreme Pro 55AF",
+      "revision": "4060"
+    }
+  ],
+  "failed_after_recovery": "Read Capacity(10): data/status did not complete; libusb timeout -7",
+  "no_SSD_erase_security_change_or_NVMe_reset_commands_sent": true,
+  "result_limit": "Original board serial verified. Underlying SN700 identity could not be read through this board; owner-confirmed physical installation. A board fault versus model compatibility is not separated."
+}

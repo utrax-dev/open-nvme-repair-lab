@@ -1,0 +1,31 @@
+{
+  "stage": "C-performance",
+  "model": "WD Red SN700 500GB",
+  "firmware": "111150WD",
+  "same_retained_file": true,
+  "file_bytes": 4294967296,
+  "before_original_board_first_read_MB_s": 2337.6,
+  "after_original_board_first_read_MB_s": 2032.0,
+  "first_read_physical_bytes": 4294967296,
+  "first_read_operations": 8192,
+  "read_errors_added": 0,
+  "read_retries_added": 0,
+  "full_SHA256_match": true,
+  "host_load_averages": [
+    19.10400390625,
+    20.42626953125,
+    21.390625
+  ],
+  "repeat_parallel_read_excluded_as_cache_assisted": {
+    "apparent_MB_s": 6296.9,
+    "physical_bytes": 1379287040
+  },
+  "health_after": {
+    "critical_warning": 0,
+    "temperature": 34,
+    "media_errors": 0,
+    "num_err_log_entries": 1,
+    "percentage_used": 9
+  },
+  "limit": "Before and return host load/temperature differ. Both physical first reads exceed 2 GB/s; the approximately 13 percent difference is not assigned to the original-board exposure. The test does not establish unchanged unqueried firmware settings."
+}

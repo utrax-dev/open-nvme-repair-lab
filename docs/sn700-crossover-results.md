@@ -1,4 +1,4 @@
-# SN700 comparison: UGREEN baseline verified
+# SN700 crossover: fast before and after original-board exposure
 
 The WD Red SN700 500GB reached **2,337.6 MB/s first-read throughput** and **1,018.2 MB/s write throughput including full flush** in the same UGREEN / USB-C / Brydge path used for the slow SN850XE. This is direct evidence that the retained path can exceed the SN850XE's approximately 330 MB/s read ceiling with a different SSD.
 
@@ -21,6 +21,41 @@ The original NAS partition metadata, Identify and health evidence were retained 
 
 The Creator Pro / primary UTRAX remained connected and mounted, excluded from device-targeted commands. Only the SN700/UGREEN has been ejected for the next swap.
 
+## Stage B: original SanDisk board does not expose usable capacity
+
+With the same owner-confirmed SN700 installed, the original 0781:55af board negotiated a **10 Gb/s USB-C connection** but exposed no physical disk or mounted comparison volume. Its first bridge firmware-version read timed out before completion. Returning from diagnostic USB passthrough to normal macOS handling still produced no disk.
+
+A USB-A connection negotiated 480 Mb/s and also exposed no disk. Its first standard Request Sense read timed out. After preserving both failures, a single USB Bulk-Only Transport recovery completed successfully and both endpoint-halt clears succeeded. The following commands then completed:
+
+| Command after the one transport recovery | Result |
+| --- | --- |
+| Test Unit Ready | SCSI/BOT success |
+| Request Sense | Success; sense key 0, ASC 0, ASCQ 0 |
+| Inquiry | Success; SanDisk Extreme Pro 55AF, revision 4060 |
+| Read Capacity(10) | Timed out before data/status completion; no retry or second recovery |
+
+The diagnostic commands sent no SSD erase, security change, firmware write or NVMe reset. The transport recovery was a USB class request; the bridge's own automatic initialization behavior remains untraced. The underlying SN700 identity could not be read through this board, so its installation is owner-confirmed rather than independently identified through the failed path. No throughput measurement through the original board was possible.
+
+This demonstrates successful USB enumeration and, after recovery, basic command handling, followed by failure to return usable storage capacity for this SSD in the tested setup. It does not identify a specific failed chip or separate a board fault from SN700 compatibility. Stage D below subsequently confirmed that this board can expose its factory SN850XE; the SN700 result must therefore retain the compatibility/initialization qualification.
+
+The USB recovery shape follows the [Linux USB-storage implementation](https://kernel.googlesource.com/pub/scm/linux/kernel/git/printk/linux/+/afdf0fb340948a8c0f581ed1dc42828af89b80b6/drivers/usb/storage/transport.c). Hardware outcomes above come from the retained local transcripts.
+
+## Stage C: SN700 returns at more than 2 GB/s with matching state and data
+
+After returning the SN700 to the UGREEN, fresh controller and namespace Identify bytes matched the stage-A captures exactly. Security protocol/discovery bytes, captured locking flags, Power Management current/default/saved/capability completions and all three APST tables were identical. Locking remained disabled and unlocked. As in A, these power queries followed diagnostic controller reinitialization; transient runtime state and unqueried vendor settings remain outside this comparison.
+
+The same retained 4 GiB file read at **2,032.0 MB/s** on its first USB-C read, with exactly 4,294,967,296 physical read bytes across 8,192 operations, no added errors/retries and a full SHA-256 match. Post-test health reported 34 C, critical warning 0, media errors 0 and cumulative error-log count 1, unchanged. The repeat parallel read was cache-assisted and excluded.
+
+Both A and C exceed 2 GB/s. Host load was higher in C, and temperature/load were not controlled tightly enough to attribute the approximately 13% difference to the original-board exposure. The crossover provides no evidence that the original board transferred a persistent, generic 330 MB/s ceiling to this spare SSD.
+
+## Stage D: original SN850XE is exposed, but initial reads fail
+
+With its original slow SN850XE installed, the original SanDisk board negotiated the same 10 Gb/s USB-C path and exposed a 4 TB physical disk. macOS Identify independently matched the approved slow SSD's exact serial, model and firmware. Public evidence omits the individual serial. This differs materially from the SN700 result and prevents attributing that result to a generally dead original board.
+
+The board reports **4,000,753,467,904 bytes**, which is **33,562,112 bytes less** than the full 4,000,787,030,016-byte NVMe namespace exposed through UGREEN. No partition map or APFS volume appeared. The capacity difference is verified, but failed reads at offset zero prevent checking the actual GPT. It cannot currently explain the missing volume by itself. No format, partition repair or SSD configuration change was performed.
+
+A macOS full SMART request returned exit bit 4 because the NVMe health-log request failed; Identify succeeded. Stock Linux passthrough could not use UAS because the guest's virtual USB controller lacks streams. Its USB-storage fallback did not expose a block disk and performed transport retries/resets during probing. This is a guest-path limitation; it is not a valid original-board throughput measurement or proof of SSD failure. The guest was stopped and only the original board was returned to macOS. The owner power-cycled the board and its physical disk reappeared. Both macOS block and raw-device opens returned EPERM even in the administrator context. The owner reports ChatGPT Full Disk Access was already enabled. The owner ran the same guarded reader from an interactive Terminal. Both 4 KiB offset-zero reads failed with errno 5, Input/output error, rather than the helper's errno 1 permission denial. No header bytes were returned or captured. The exact original-board IOBlockStorageDriver snapshot then reported 24 read operations, 24 read errors and zero bytes read; those totals include system probing and are not all attributed to the two explicit reads. The original-board secondary was safely ejected afterward.
+
 ## What remains
 
-Stage A is complete. SN700 in the original SanDisk board, SN700 returned to UGREEN, and slow SN850XE in the original board have not yet been measured in this crossover. A fixed approximately 330 MB/s ceiling across every SSD on the retained host/UGREEN path is contradicted by the SN700 result. SN850XE-specific media, firmware, initialization, power behavior, or compatibility with the retained path remains to be separated. No throughput-limiter code path or manufacturer intent has been verified.
+Stages A, B and C are complete. Stage D verified original-board capacity and exact SSD identity, then recorded failed offset-zero reads. No original-board throughput measurement was possible. This establishes a failing read path in the tested setup; it does not identify a failed chip, distinguish hardware from initialization/compatibility, or prove how the post-reset SSD state affects this board. A fixed approximately 330 MB/s ceiling across every SSD on the retained host/UGREEN path is contradicted by the SN700 results. SN850XE-specific media, firmware, initialization, power behavior, or compatibility with the retained path remains to be separated. No throughput-limiter code path or manufacturer intent has been verified.

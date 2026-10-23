@@ -1,0 +1,74 @@
+{
+  "stage": "C-security-power",
+  "fresh_SN700_identity_verified": true,
+  "captured_flags_before": {
+    "supported": true,
+    "enabled": false,
+    "locked": false,
+    "media_encryption": false,
+    "mbr_enabled": false,
+    "mbr_done": false
+  },
+  "captured_flags_after": {
+    "supported": true,
+    "enabled": false,
+    "locked": false,
+    "media_encryption": false,
+    "mbr_enabled": false,
+    "mbr_done": false
+  },
+  "all_captured_fields_match": true,
+  "comparison": {
+    "protocols": {
+      "completion_dword0_same": true,
+      "data_same": true
+    },
+    "discovery": {
+      "completion_dword0_same": true,
+      "data_same": true
+    },
+    "power-current": {
+      "completion_dword0_same": true,
+      "data_same": true
+    },
+    "power-default": {
+      "completion_dword0_same": true,
+      "data_same": true
+    },
+    "power-saved": {
+      "completion_dword0_same": true,
+      "data_same": true
+    },
+    "power-capabilities": {
+      "completion_dword0_same": true,
+      "data_same": true
+    },
+    "apst-current": {
+      "completion_dword0_same": true,
+      "data_same": true
+    },
+    "apst-default": {
+      "completion_dword0_same": true,
+      "data_same": true
+    },
+    "apst-saved": {
+      "completion_dword0_same": true,
+      "data_same": true
+    }
+  },
+  "Identify_controller_bytes_identical": true,
+  "Identify_namespace_bytes_identical": true,
+  "health_now": {
+    "critical_warning": 0,
+    "temperature_C": 31.9,
+    "percentage_used": 9,
+    "power_cycles": 63,
+    "power_on_hours": 12572,
+    "unsafe_shutdowns": 53,
+    "media_errors": 0,
+    "error_log_count": 1
+  },
+  "media_errors_before": 0,
+  "error_log_count_before": 1,
+  "limit": "Captured fields only; power features are read after diagnostic NVMe controller reset on both stages. This does not exclude transient state or unqueried vendor settings."
+}
