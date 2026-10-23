@@ -1,0 +1,6 @@
+{"transport": "BOT", "interface": 0, "alternate": 0, "in_endpoint": 129, "out_endpoint": 2}
+{"original_bridge_firmware": "19062091e48a", "device": "serial verified; original controller empty"}
+{"read": "vendor-init-enabled", "bytes": 1, "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"}
+{"read": "vendor-init-table", "bytes": 300, "sha256": "65c8f31ca02cb72fac187a47a60cbef600a2e6bb865c1a2ee3f9a0fa7745a980"}
+{"read": "vendor-init-config-window", "bytes": 304, "sha256": "a69fc874408bebb1de87d3c15f0b06b8a6a27c8ae284d60d45cb453e770acbdd"}
+{"read": "command-buffer-pointer", "bytes": 3, "sha256": "f7d9023f14f8b9d282fed428904b7be733c1c50c13005b4a97006d16d3fad9b7"}

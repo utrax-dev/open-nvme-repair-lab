@@ -1,0 +1,109 @@
+{
+  "original_bridge_firmware": "19062091e48a",
+  "runtime_enable_flag": 1,
+  "table_address": "0x0337",
+  "records_used_by_initialization": 14,
+  "records": [
+    {
+      "index": 0,
+      "link_selector": 0,
+      "parameter": 1,
+      "value": 5
+    },
+    {
+      "index": 1,
+      "link_selector": 0,
+      "parameter": 2,
+      "value": 0
+    },
+    {
+      "index": 2,
+      "link_selector": 1,
+      "parameter": 1,
+      "value": 12
+    },
+    {
+      "index": 3,
+      "link_selector": 1,
+      "parameter": 2,
+      "value": 5
+    },
+    {
+      "index": 4,
+      "link_selector": 2,
+      "parameter": 1,
+      "value": 30
+    },
+    {
+      "index": 5,
+      "link_selector": 2,
+      "parameter": 2,
+      "value": 25
+    },
+    {
+      "index": 6,
+      "link_selector": 3,
+      "parameter": 1,
+      "value": 30
+    },
+    {
+      "index": 7,
+      "link_selector": 3,
+      "parameter": 2,
+      "value": 25
+    },
+    {
+      "index": 8,
+      "link_selector": 4,
+      "parameter": 1,
+      "value": 41
+    },
+    {
+      "index": 9,
+      "link_selector": 4,
+      "parameter": 2,
+      "value": 28
+    },
+    {
+      "index": 10,
+      "link_selector": 255,
+      "parameter": 56,
+      "value": 25
+    },
+    {
+      "index": 11,
+      "link_selector": 255,
+      "parameter": 64,
+      "value": 28
+    },
+    {
+      "index": 12,
+      "link_selector": 255,
+      "parameter": 72,
+      "value": 32
+    },
+    {
+      "index": 13,
+      "link_selector": 255,
+      "parameter": 80,
+      "value": 35
+    }
+  ],
+  "command_construction": {
+    "first": {
+      "opcode": "0xfd",
+      "nsid": 0,
+      "cdw10": "parameter",
+      "cdw11": "value"
+    },
+    "following": {
+      "opcode": "0xfe",
+      "nsid": 0,
+      "cdw10": "parameter",
+      "cdw11": 0
+    }
+  },
+  "runtime_execution_with_ssd_installed_traced": false,
+  "meaning_confirmed": false,
+  "speed_fix_proven": false
+}

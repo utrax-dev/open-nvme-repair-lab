@@ -1,0 +1,17 @@
+{"transport": "BOT", "interface": 0, "alternate": 0, "in_endpoint": 129, "out_endpoint": 2}
+{"model": "WD_BLACK SN850XE 4000GB", "firmware": "624131EX", "identity": "fresh verified", "scope": "two exact factory 0xFE followups; no 0xFD, reset, format or firmware commands"}
+{"controller_status": "0x0", "waiting_for_ready": false}
+{"controller_status": "0x1", "waiting_for_ready": true}
+{"opcode": "0x2", "cdw10": "0xff0005", "status": 0, "completion_dword0": 0}
+{"opcode": "0x2", "cdw10": "0x7f0002", "status": 0, "completion_dword0": 0}
+{"smart": {"critical_warning": 0, "temperature_c": 38.85000000000002, "available_spare": 100, "percentage_used": 0, "media_errors": 0, "error_log_count": 1}}
+{"opcode": "0xa", "cdw10": "0x2", "status": 0, "completion_dword0": 0}
+{"standard_power_feature": 0}
+{"opcode": "0xfe", "cdw10": "0x1", "status": 0, "completion_dword0": 0}
+{"opcode": "0xfe", "cdw10": "0x2", "status": 0, "completion_dword0": 0}
+{"opcode": "0x2", "cdw10": "0x7f0002", "status": 0, "completion_dword0": 0}
+{"smart": {"critical_warning": 0, "temperature_c": 38.85000000000002, "available_spare": 100, "percentage_used": 0, "media_errors": 0, "error_log_count": 1}}
+{"factory_followup_results": [{"parameter": 1, "completion_dword0": 0}, {"parameter": 2, "completion_dword0": 0}], "meaning_confirmed": false, "no_0xfd_sent": true, "speed_fix_proven": false}
+{"controller_status": "0x0", "waiting_for_ready": false}
+{"controller_status": "0x1", "waiting_for_ready": true}
+Original controller registers restored and verified. Reconnect required for normal I/O.

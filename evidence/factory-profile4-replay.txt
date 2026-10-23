@@ -1,0 +1,19 @@
+{"transport": "BOT", "interface": 0, "alternate": 0, "in_endpoint": 129, "out_endpoint": 2}
+{"model": "WD_BLACK SN850XE 4000GB", "firmware": "624131EX", "identity": "fresh verified", "scope": "exact original factory profile 4 replay"}
+{"controller_status": "0x0", "waiting_for_ready": false}
+{"controller_status": "0x1", "waiting_for_ready": true}
+{"opcode": "0x2", "cdw10": "0xff0005", "cdw11": "0x0", "status": 0, "completion_dword0": 0}
+{"opcode": "0x2", "cdw10": "0x7f0002", "cdw11": "0x0", "status": 0, "completion_dword0": 0}
+{"smart": {"critical_warning": 0, "temperature_c": 37.85000000000002, "available_spare": 100, "percentage_used": 0, "media_errors": 0, "error_log_count": 1}}
+{"opcode": "0xa", "cdw10": "0x2", "cdw11": "0x0", "status": 0, "completion_dword0": 0}
+{"standard_power_feature": 0}
+{"opcode": "0xfd", "cdw10": "0x1", "cdw11": "0x29", "status": 0, "completion_dword0": 0}
+{"opcode": "0xfe", "cdw10": "0x1", "cdw11": "0x0", "status": 0, "completion_dword0": 41}
+{"opcode": "0xfd", "cdw10": "0x2", "cdw11": "0x1c", "status": 0, "completion_dword0": 0}
+{"opcode": "0xfe", "cdw10": "0x2", "cdw11": "0x0", "status": 0, "completion_dword0": 28}
+{"opcode": "0x2", "cdw10": "0x7f0002", "cdw11": "0x0", "status": 0, "completion_dword0": 0}
+{"smart": {"critical_warning": 0, "temperature_c": 37.85000000000002, "available_spare": 100, "percentage_used": 0, "media_errors": 0, "error_log_count": 1}}
+{"factory_vendor_results": [{"opcode": "0xfd", "parameter": 1, "value": 41, "completion_dword0": 0}, {"opcode": "0xfe", "parameter": 1, "value": 0, "completion_dword0": 41}, {"opcode": "0xfd", "parameter": 2, "value": 28, "completion_dword0": 0}, {"opcode": "0xfe", "parameter": 2, "value": 0, "completion_dword0": 28}], "meaning_confirmed": false, "no_0xfd_sent": false, "speed_fix_proven": false}
+{"controller_status": "0x0", "waiting_for_ready": false}
+{"controller_status": "0x1", "waiting_for_ready": true}
+Original controller registers restored and verified. Reconnect required for normal I/O.

@@ -72,3 +72,13 @@ The new APFS volume and container passed diskutil verification with exit code 0.
 - [TCG Opal specification](https://trustedcomputinggroup.org/wp-content/uploads/TCG-Storage-Opal-SSC-v2p02-r1p0_pub24jan2022.pdf)
 - [ASMedia bridge research](https://github.com/cyrozap/usb-to-pcie-re)
 - [OrbStack USB passthrough](https://docs.orbstack.dev/features/usb)
+
+## Vendor initialization investigation
+
+A read-only query of the empty original bridge verified firmware 19062091e48a and found its vendor-init flag enabled. The runtime table selects two values according to USB link state. The highest populated selector uses parameter pairs 1→0x29 and 2→0x1C. Assembly reconstructs 0xFD with the parameter in CDW10 and value in CDW11, followed by 0xFE with that parameter. The units, purpose and persistence remain unknown.
+
+A bounded experiment sent only the original 0xFE frames for parameters 1 and 2, once each. Both returned successful completion with DWORD0=0; this did not expose the current settings. Before/after health stayed approximately 39°C with zero critical warnings and media errors; the cumulative error-log count stayed at 1. Original controller registers were restored and verified. No 0xFD was sent in that probe. See the separate vendor initialization findings for the table and exact evidence limits.
+
+The exact original profile-4 sequence was subsequently accepted, and the 0xFE followups read back the 0xFD values 41 and 28. The next USB-C test still measured 266.0 MB/s write and 331.9 MB/s first read, with exactly 4 GiB of physical reads, no added read errors/retries and a full hash match. A later 0xFE query returned 0/0 after the controller-reset/reconnect sequence. This confirms a configurable, nonpersistent-across-that-sequence mechanism, but not the specific clearing transition or a performance unlock.
+
+A controlled follow-up established that the 41/28 values survived NVMe CC.EN reset and diagnostic queue reconstruction within one USB attachment. The later 0/0 state is associated with the broader reconnect/initialization route; the exact clearing action is not isolated. The USB-C speed result therefore cannot establish performance while those values remain active. Live hardware sequence/readbacks are retained separately from the 26 offline safeguards (portable checkout: 25 pass, one private-fixture test skipped).

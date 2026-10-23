@@ -45,6 +45,8 @@ The hardware-command prototype deliberately rejects other identities/firmware an
 | Post-reset 8-worker first read | 330.4 MB/s; physical counters confirmed about 4.30 GB read |
 | Integrity | Both complete post-reset 4 GiB hashes matched |
 | Added read errors/retries in parallel test | 0 / 0 |
+| Original vendor profile replay | Accepted; values 41/28 read back and survive controlled NVMe reset; later 0/0 after broader reconnect path |
+| USB-C test after profile replay | 266.0 MB/s write; 331.9 MB/s first read; full hash matched |
 | Full-speed repair / intentional anti-shucking cap | Not established |
 
 The repeated file read reached 975.9 MB/s, but it may include cache effects and is not a demonstrated media-transfer maximum. A 40 Gb/s USB4 link itself has a raw ceiling of 5,000 MB/s before overhead; 7,000 MB/s cannot traverse that link.
@@ -54,6 +56,7 @@ The repeated file read reached 975.9 MB/s, but it may include cache effects and 
 - [Reproduction procedure](docs/reproduction.md)
 - [Detailed case report and limitations](docs/diagnostic-report.md)
 - [LinkedIn draft](docs/linkedin-draft.md)
+- [Original bridge vendor initialization: decoded table, accepted write/readback, and persistence limits](docs/vendor-initialization.md)
 - [Admin1 authentication](evidence/firmware-admin1-authentication.txt)
 - [SID authentication](evidence/firmware-sid-authentication.txt)
 - [Authenticated range audit](evidence/authenticated-range-audit.txt)
@@ -61,7 +64,9 @@ The repeated file read reached 975.9 MB/s, but it may include cache effects and 
 - [Independent post-reset query](evidence/post-reset-security-query.txt)
 - [Post-reset sequential file test](evidence/post-reset-file-benchmark.txt)
 - [Post-reset parallel test and physical counters](evidence/post-reset-parallel-benchmark.txt)
-- [18 passing private-lab safeguard tests](evidence/post-reset-safety-tests.txt)
+- [18 passing reset safeguards in the private lab](evidence/post-reset-safety-tests.txt)
+- [26 portable safeguard checks: 25 pass, one private fixture skipped](evidence/portable-vendor-safety-tests.txt)
+- [Factory values survive controlled NVMe reset](evidence/factory-profile4-controller-reset-persistence.txt)
 
 Run the offline checks with Python 3:
 
@@ -69,7 +74,7 @@ Run the offline checks with Python 3:
 python3 -m unittest discover -s tools -p 'test_*.py' -v
 ```
 
-The fixture containing the owner's firmware and recovered challenge is deliberately absent from the repository, so its one private-fixture comparison is skipped in a clean checkout. The remaining tests cover packet encodings, malformed responses, one-time reset arming, approval scope/age, private completion-record writes, and rejection of an internal, primary, ambiguous or wrong-serial device.
+The fixture containing the owner's firmware and recovered challenge is deliberately absent from the repository, so its one private-fixture comparison is skipped in a clean checkout. The remaining tests cover the bounded vendor-command sequence and reset-test ordering, packet encodings, malformed responses, one-time reset arming, approval scope/age, private completion-record writes, and rejection of an internal, primary, ambiguous or wrong-serial device.
 
 ## Why a PSID was not required
 
