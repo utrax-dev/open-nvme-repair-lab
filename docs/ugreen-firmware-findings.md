@@ -32,3 +32,7 @@ This does not rule out an enclosure/SSD compatibility bug or an unpublished supp
 The same retained UGREEN/host path previously read the SN700 control above 2 GB/s while the SN850XE remained around 330 MB/s. That weakens a general path-wide speed limit; a drive-specific bridge interaction remains possible.
 
 An owner-reviewable [support request](ugreen-support-request.md) is prepared. It has not been sent. Firmware images, updater binaries, raw vendor code and individual device serials are not included in the public repository.
+
+## Subsequent compatibility finding
+
+The owner's linked Amazon listing for this exact SKU explicitly excludes WD SN850X. That restriction was independently verified after the regional-site check above and changes the compatibility assessment. It gives no engineering reason or fixing firmware version. SN850XE is not named. See the [SN850X/SN850XE compatibility investigation](sn850x-compatibility-investigation.md); the lack of an applicable public firmware upgrade must not be interpreted as evidence of drive compatibility.

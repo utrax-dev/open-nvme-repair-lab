@@ -54,6 +54,7 @@ The hardware-command prototype deliberately rejects other identities/firmware an
 | SN850XE returned to UGREEN USB4 | 331.4 MB/s; exactly 4 GiB physical reads; full hash matched |
 | Current USB4 bounded read curve without reset | 329.0 MB/s first pass; no added errors/retries or reported thermal-throttling counts; full hash matched |
 | UGREEN firmware update lead | 55316 listing has conformity documents only; located CM642 package is 240417850000, older than installed 250717850000; D700 applicability unverified |
+| Exact D700 Amazon listing | Explicitly excludes WD SN850X; cause and SN850XE applicability unspecified; the fast SN700 control does not validate this pairing |
 | Full-speed repair / intentional anti-shucking cap | Not established |
 
 The repeated file read reached 975.9 MB/s, but it may include cache effects and is not a demonstrated media-transfer maximum. A 40 Gb/s USB4 link itself has a raw ceiling of 5,000 MB/s before overhead; 7,000 MB/s cannot traverse that link.
@@ -67,6 +68,7 @@ The repeated file read reached 975.9 MB/s, but it may include cache effects and 
 - [Original bridge vendor initialization: decoded table, accepted write/readback, and persistence limits](docs/vendor-initialization.md)
 - [Current USB4 state, latency/temperature curve and exact missing administrative interface](docs/current-usb4-diagnostics.md)
 - [Official UGREEN firmware package and model check](docs/ugreen-firmware-findings.md)
+- [Verified SN850X restriction, physical-fit question and SN850XE-specific reports](docs/sn850x-compatibility-investigation.md)
 - [Draft UGREEN support request, not sent](docs/ugreen-support-request.md)
 - [Admin1 authentication](evidence/firmware-admin1-authentication.txt)
 - [SID authentication](evidence/firmware-sid-authentication.txt)

@@ -1,0 +1,34 @@
+{
+  "checked": "2026-10-23",
+  "source": "https://www.amazon.com/dp/B0F62NG7K3",
+  "ASIN": "B0F62NG7K3",
+  "model_number": "55316",
+  "section": "branded product description",
+  "statement": "This product is not compatible with WD SN850X SSD",
+  "verified_in_rendered_browser": true,
+  "verified_in_web_fetched_product_description": true,
+  "engineering_reason_stated": false,
+  "affected_capacities_or_firmware_stated": false,
+  "SN850XE_explicitly_named": false,
+  "separate_general_thickness_warning_present": true,
+  "owner_reported_fit": "SSD sat flat; cover closed freely",
+  "physical_fit_independently_verified": false,
+  "SSD_commands_or_setting_changes_during_this_research": false,
+  "power_descriptors_from_saved_Identify": {
+    "SN850XE_PS0_max_W": 9.0,
+    "SN700_PS0_max_W": 5.5,
+    "actual_selected_state_or_power_draw_measured": false
+  },
+  "manufacturer_technical_answer_obtained": false,
+  "current_assessment": "Exact pairing compatibility is in doubt; restriction does not establish its cause or applicability to the SN850XE firmware-specific ceiling.",
+  "local_static_screen": {
+    "installed_bridge_code_version": "250717850000",
+    "installed_bridge_code_sha256": "f069ce8c435eb3bb2649255a45d57a8b258589ee7555c99d5d3c3fff6a9c8cd0",
+    "literal_SN850_string_present": false,
+    "complete_blacklist_audit": false,
+    "named_restriction_code_path_identified": false,
+    "firmware_modified_or_flashed": false
+  },
+  "live_Creator_Pro_drive_queries_performed": false,
+  "support_request_status": "Draft only; owner explicitly declined sending"
+}

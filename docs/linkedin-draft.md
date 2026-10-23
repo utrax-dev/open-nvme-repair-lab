@@ -22,6 +22,8 @@ I am publishing that negative result alongside the recovery method. It prevents 
 
 We also checked the enclosure-update advice against the actual manufacturer download. The located official package was for a different UGREEN model and carried firmware older than the build already installed. It was not a verified upgrade. Practical repair needs model-specific firmware and release notes, as well as diagnostic access.
 
+Another finding changed the compatibility assessment: the exact UGREEN listing explicitly excludes WD SN850X. My module identifies as SN850XE, and the listing does not explain the exclusion, so this is a lead rather than a proven cause. A fast control SSD establishes what a path can do with that SSD; it does not prove compatibility with every other one.
+
 My stance is straightforward: owners deserve documented diagnostic access, usable reset procedures and the information required to reuse the hardware they bought. Recovering a working administrator credential should not require reverse engineering a failed enclosure's firmware.
 
 Right to repair means practical access. Open tools and reproducible evidence extend hardware life, reduce avoidable replacement and keep reusable components out of the waste stream. Manufacturers should build that access into their products.

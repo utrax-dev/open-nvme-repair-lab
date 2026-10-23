@@ -8,11 +8,14 @@ The SSD is a WD_BLACK SN850XE 4000GB, firmware 624131EX, removed from a SanDisk 
 
 Your Download Center's 55316 record currently lists conformity documents. The firmware package under 15976 / CM642 contains the older AS_USB4_240417_85_00_00.bin. We have not flashed it onto the D700.
 
+The product-description section of https://www.amazon.com/dp/B0F62NG7K3 explicitly excludes WD SN850X. That page identifies model number 55316. It separately mentions SSD thickness/thermal-pad fit. Our bare SN850XE sat flat and its cover closed freely according to the owner.
+
 Please confirm:
 
-1. Is 250717_85_00_00 the current approved D700/55316 firmware? Is there a newer or model-specific build addressing WD/SanDisk NVMe compatibility, especially SN850XE with firmware 624131EX?
-2. Please provide the approved image, updater, release notes, checksum and applicable board/hardware revisions. Does the CM642 package apply to D700 at all?
-3. What configuration must be retained or supplied so an update preserves D700-specific USB4/TBT, PCIe, power, thermal, identity and other board settings? Can those settings be read and compared without flashing?
-4. Is there a supported macOS/Linux administrative-command path while the enclosure remains in USB4 PCIe-tunneling mode, allowing NVMe Get/Set Features and diagnostic vendor commands without resetting the SSD or rebuilding queues?
+1. What is the engineering reason for the D700/55316 SN850X exclusion? Is it underside component clearance/pad pressure, supply/current or thermal limits, PCIe link/reset timing, ASPM/APST, or a specific SSD/bridge firmware interaction? Which capacities, SSD firmware versions and enclosure hardware revisions are affected? Does it apply to SN850XE 4000GB / 624131EX? Please distinguish the exclusion from the separate general thickness warning, and identify any validated fix or intended failure symptoms.
+2. Is 250717_85_00_00 the current approved D700/55316 firmware? Is there a newer or model-specific build addressing WD/SanDisk NVMe compatibility, especially SN850XE with firmware 624131EX?
+3. Please provide the approved image, updater, release notes, checksum and applicable board/hardware revisions. Does the CM642 package apply to D700 at all?
+4. What configuration must be retained or supplied so an update preserves D700-specific USB4/TBT, PCIe, power, thermal, identity and other board settings? Can those settings be read and compared without flashing?
+5. Is there a supported macOS/Linux administrative-command path while the enclosure remains in USB4 PCIe-tunneling mode, allowing NVMe Get/Set Features and diagnostic vendor commands without resetting the SSD or rebuilding queues?
 
 I can provide a sanitized diagnostic report. Please identify any additional device-specific information needed privately.
