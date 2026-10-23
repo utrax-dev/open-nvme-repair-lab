@@ -16,6 +16,8 @@ The result that matters: the reset worked, but it did not fix throughput. First 
 
 We also decoded the original bridge’s link-dependent vendor configuration table. Its exact commands changed two SSD parameters and read them back successfully. Those values survived a controlled NVMe reset but later returned to zero across a reconnect path. Their purpose and performance effect remain unresolved.
 
+A comparison drive made the next step much clearer: a WD Red SN700 reached 2,338 MB/s on its first read through the same UGREEN enclosure and connection path, with 4 GiB confirmed by physical-device counters. That path can move data quickly. We are now testing the original board and the return trip to distinguish SSD-specific behavior from a controller or initialization issue.
+
 I am publishing that negative result alongside the recovery method. It prevents the next owner from repeating a claim that an OPAL reset automatically unlocks 7 GB/s.
 
 My stance is straightforward: owners deserve documented diagnostic access, usable reset procedures and the information required to reuse the hardware they bought. Recovering a working administrator credential should not require reverse engineering a failed enclosure's firmware.

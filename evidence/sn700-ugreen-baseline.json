@@ -1,0 +1,45 @@
+{
+  "stage": "A",
+  "ssd_model": "WD Red SN700 500GB",
+  "firmware": "111150WD",
+  "capacity_bytes": 500107862016,
+  "enclosure": "UGREEN 174c:2463",
+  "connection": "Existing USB-C / USB4 path through Brydge dock",
+  "nvme_link": "PCIe Gen3 x4, 8 GT/s",
+  "write_MB_s": 1018.2,
+  "first_sequential_read_MB_s": 2337.6,
+  "first_read_physical_bytes": 4294967296,
+  "first_read_errors_added": 0,
+  "first_read_retries_added": 0,
+  "full_4GiB_sha256_match": true,
+  "repeat_read_excluded": "Cache-assisted: only 1128251392 physical bytes for 4294967296 file bytes; apparent 11977.4 MB/s is not drive throughput",
+  "TCG_locking": {
+    "supported": true,
+    "enabled": false,
+    "locked": false,
+    "media_encryption": false,
+    "mbr_enabled": false,
+    "mbr_done": false
+  },
+  "power_management_completion_dword0": {
+    "power-current": 0,
+    "power-default": 0,
+    "power-saved": 0,
+    "power-capabilities": 4
+  },
+  "APST_completion_dword0": {
+    "apst-current": 0,
+    "apst-default": 0,
+    "apst-saved": 0
+  },
+  "power_state_limit": "Read after diagnostic NVMe reinitialization, before original SanDisk board exposure; not the earlier USB-C benchmark state",
+  "health_after_benchmark": {
+    "temperature_C": 39,
+    "critical_warning": 0,
+    "media_errors": 0,
+    "error_log_count": 1
+  },
+  "pre_format_NAS_evidence": "Partition metadata and Identify/health preserved privately; NAS data was owner-reported backed up and block-verified; original partitions replaced by explicitly approved APFS test volume",
+  "Creator_Pro": "Remained connected and excluded from targeted commands",
+  "conclusion": "The retained host/UGREEN path supports more than 2 GB/s with SN700. SN850XE-specific behavior or compatibility remains unresolved."
+}

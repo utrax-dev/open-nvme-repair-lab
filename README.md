@@ -47,6 +47,7 @@ The hardware-command prototype deliberately rejects other identities/firmware an
 | Added read errors/retries in parallel test | 0 / 0 |
 | Original vendor profile replay | Accepted; values 41/28 read back and survive controlled NVMe reset; later 0/0 after broader reconnect path |
 | USB-C test after profile replay | 266.0 MB/s write; 331.9 MB/s first read; full hash matched |
+| SN700 500GB control in the same UGREEN path | 1,018.2 MB/s write; 2,337.6 MB/s first read; exactly 4 GiB physical reads and full hash match |
 | Full-speed repair / intentional anti-shucking cap | Not established |
 
 The repeated file read reached 975.9 MB/s, but it may include cache effects and is not a demonstrated media-transfer maximum. A 40 Gb/s USB4 link itself has a raw ceiling of 5,000 MB/s before overhead; 7,000 MB/s cannot traverse that link.
@@ -55,6 +56,7 @@ The repeated file read reached 975.9 MB/s, but it may include cache effects and 
 
 - [Reproduction procedure](docs/reproduction.md)
 - [Detailed case report and limitations](docs/diagnostic-report.md)
+- [SN700 crossover control: same host/UGREEN path exceeds 2 GB/s; remaining stages pending](docs/sn700-crossover-results.md)
 - [LinkedIn draft](docs/linkedin-draft.md)
 - [Original bridge vendor initialization: decoded table, accepted write/readback, and persistence limits](docs/vendor-initialization.md)
 - [Admin1 authentication](evidence/firmware-admin1-authentication.txt)

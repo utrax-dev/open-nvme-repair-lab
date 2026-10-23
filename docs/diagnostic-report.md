@@ -82,3 +82,12 @@ A bounded experiment sent only the original 0xFE frames for parameters 1 and 2, 
 The exact original profile-4 sequence was subsequently accepted, and the 0xFE followups read back the 0xFD values 41 and 28. The next USB-C test still measured 266.0 MB/s write and 331.9 MB/s first read, with exactly 4 GiB of physical reads, no added read errors/retries and a full hash match. A later 0xFE query returned 0/0 after the controller-reset/reconnect sequence. This confirms a configurable, nonpersistent-across-that-sequence mechanism, but not the specific clearing transition or a performance unlock.
 
 A controlled follow-up established that the 41/28 values survived NVMe CC.EN reset and diagnostic queue reconstruction within one USB attachment. The later 0/0 state is associated with the broader reconnect/initialization route; the exact clearing action is not isolated. The USB-C speed result therefore cannot establish performance while those values remain active. Live hardware sequence/readbacks are retained separately from the 26 offline safeguards (portable checkout: 25 pass, one private-fixture test skipped).
+
+
+## SN700 crossover control: host/UGREEN path exceeds 2 GB/s
+
+A separate WD Red SN700 500GB, firmware 111150WD, measured **1,018.2 MB/s write with full flush and 2,337.6 MB/s first sequential read** in the retained UGREEN / USB-C / dock path. The first read produced exactly 4,294,967,296 physical read bytes across 8,192 operations, with no added errors/retries, and the complete 4 GiB SHA-256 matched. The repeat parallel result was cache-assisted and excluded from drive-throughput conclusions.
+
+The SN700 security/power baseline was captured before first exposure to the original SanDisk board: TCG locking supported but disabled/unlocked, Power Management DWORD0=0, APST disabled. Those feature reads followed diagnostic controller reinitialization and do not establish the earlier USB-C runtime state. Original NAS partition metadata was retained privately before the owner explicitly approved an APFS comparison format. Creator Pro / primary UTRAX remained connected and excluded.
+
+This control contradicts a fixed approximately 330 MB/s ceiling for every SSD on the retained host/UGREEN path. It narrows investigation to SN850XE-specific behavior or interaction with that path; it does not isolate media, firmware, initialization, power behavior or compatibility. SN700 in the original board, its return to UGREEN, and SN850XE in the original board remain pending. See the [SN700 crossover results](sn700-crossover-results.md).
