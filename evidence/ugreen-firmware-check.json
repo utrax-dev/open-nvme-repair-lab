@@ -1,0 +1,34 @@
+{
+  "checked": "2026-10-23",
+  "flash_or_config_write_performed": false,
+  "current_connection_retained": true,
+  "enclosure_SKU": "55316",
+  "enclosure_model": "D700",
+  "installed_build_from_prior_direct_version_query": "250717850000",
+  "installed_version_requeried_this_attachment": false,
+  "official_download_center": "https://us.ugreen.com/pages/download",
+  "official_data_source": "https://cdn.shopify.com/s/files/1/0573/0979/0291/files/Download-eu.js?v=1790147964",
+  "selected_records": [
+    {
+      "title": "55316",
+      "pic": "https://cdn.shopify.com/s/files/1/0573/0979/0291/files/55316.png?v=1759202471",
+      "eudoc": "https://www.mediafire.com/file_premium/dtun0i5ihvixznp/D700_55316_EU-DOC.pdf/file",
+      "ukdoc": "https://www.mediafire.com/file_premium/evwb3kg3yqmrmff/D700_55316_UK-DOC.pdf/file"
+    },
+    {
+      "title": "15976",
+      "pic": "https://cdn.shopify.com/s/files/1/0257/5246/9566/files/15976.jpg?v=1717741577",
+      "driver": "https://www.mediafire.com/file/gatg8nnbgvbfemg/ASM2464PD(5).rar/file",
+      "eudoc": "https://www.mediafire.com/file_premium/dffsgk73vibdlz9/CM642_15976_EU_DOC_%25E6%2596%2587%25E4%25BB%25B6.pdf/file",
+      "ukdoc": "https://www.mediafire.com/file_premium/w0e3by8wgrzpqpe/CM642_15976_UK_DOC_%25E6%2596%2587%25E4%25BB%25B6.pdf/file"
+    }
+  ],
+  "located_archive_sha256": "0b82c54eca9bc892dd52688e8514bd2285960e5aa97d5cf39d022b3fb4b603a8",
+  "located_image": "AS_USB4_240417_85_00_00.bin",
+  "located_image_version_bytes": "240417850000",
+  "image_sha256": "0acfd7e0b6e3a5dec5abcf4af4ac03817dd463b7800ed4cf1f7c8a0778ab7b8b",
+  "CM642_image_applicability_to_D700_established": false,
+  "newer_model_approved_image_found": false,
+  "WD_specific_fix_documentation_found": false,
+  "vendor_software_executed": false
+}

@@ -20,6 +20,8 @@ A comparison drive made the next step much clearer: a WD Red SN700 reached 2,338
 
 I am publishing that negative result alongside the recovery method. It prevents the next owner from repeating a claim that an OPAL reset automatically unlocks 7 GB/s.
 
+We also checked the enclosure-update advice against the actual manufacturer download. The located official package was for a different UGREEN model and carried firmware older than the build already installed. It was not a verified upgrade. Practical repair needs model-specific firmware and release notes, as well as diagnostic access.
+
 My stance is straightforward: owners deserve documented diagnostic access, usable reset procedures and the information required to reuse the hardware they bought. Recovering a working administrator credential should not require reverse engineering a failed enclosure's firmware.
 
 Right to repair means practical access. Open tools and reproducible evidence extend hardware life, reduce avoidable replacement and keep reusable components out of the waste stream. Manufacturers should build that access into their products.

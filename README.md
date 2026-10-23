@@ -24,6 +24,7 @@ No vendor firmware, vendor decompiled code, credential bytes or individual devic
 | SSD firmware | 624131EX |
 | Capacity | 4,000,787,030,016 bytes |
 | UGREEN USB VID:PID | 174c:2463 |
+| Owner-identified UGREEN SKU / model | 55316 / D700 |
 | UGREEN bridge firmware bytes | 250717850000 |
 | Original code image size | 65,368 bytes |
 | Original code SHA-256 | 0468b822080cc3b26de98b935175495120c1ad5046e505d4325e73a412ddac20 |
@@ -50,6 +51,9 @@ The hardware-command prototype deliberately rejects other identities/firmware an
 | SN700 500GB control in the same UGREEN path | 1,018.2 MB/s write; 2,337.6 MB/s first read; exactly 4 GiB physical reads and full hash match |
 | SN700 after original-board exposure, back in UGREEN | 2,032.0 MB/s first read; exactly 4 GiB physical reads, full hash match, captured security/power fields unchanged |
 | Original SanDisk board with factory SN850XE | Exact SSD identified and capacity exposed; offset-zero reads fail with EIO, physical snapshot has zero read bytes / 24 read errors; throughput unmeasurable |
+| SN850XE returned to UGREEN USB4 | 331.4 MB/s; exactly 4 GiB physical reads; full hash matched |
+| Current USB4 bounded read curve without reset | 329.0 MB/s first pass; no added errors/retries or reported thermal-throttling counts; full hash matched |
+| UGREEN firmware update lead | 55316 listing has conformity documents only; located CM642 package is 240417850000, older than installed 250717850000; D700 applicability unverified |
 | Full-speed repair / intentional anti-shucking cap | Not established |
 
 The repeated file read reached 975.9 MB/s, but it may include cache effects and is not a demonstrated media-transfer maximum. A 40 Gb/s USB4 link itself has a raw ceiling of 5,000 MB/s before overhead; 7,000 MB/s cannot traverse that link.
@@ -61,6 +65,9 @@ The repeated file read reached 975.9 MB/s, but it may include cache effects and 
 - [SN700 crossover: same path exceeds 2 GB/s before and after original-board exposure; SN850XE original-board reads fail](docs/sn700-crossover-results.md)
 - [LinkedIn draft](docs/linkedin-draft.md)
 - [Original bridge vendor initialization: decoded table, accepted write/readback, and persistence limits](docs/vendor-initialization.md)
+- [Current USB4 state, latency/temperature curve and exact missing administrative interface](docs/current-usb4-diagnostics.md)
+- [Official UGREEN firmware package and model check](docs/ugreen-firmware-findings.md)
+- [Draft UGREEN support request, not sent](docs/ugreen-support-request.md)
 - [Admin1 authentication](evidence/firmware-admin1-authentication.txt)
 - [SID authentication](evidence/firmware-sid-authentication.txt)
 - [Authenticated range audit](evidence/authenticated-range-audit.txt)
