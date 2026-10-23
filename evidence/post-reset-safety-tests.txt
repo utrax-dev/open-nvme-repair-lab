@@ -1,0 +1,23 @@
+test_atom_lengths_and_values (test_tcg_ro.CodecTests.test_atom_lengths_and_values) ... ok
+test_authentication_requires_current_factory_value_and_exact_admin1_call (test_tcg_ro.CodecTests.test_authentication_requires_current_factory_value_and_exact_admin1_call) ... ok
+test_completed_reset_record_is_private_and_not_overwritten (test_tcg_ro.CodecTests.test_completed_reset_record_is_private_and_not_overwritten) ... ok
+test_erase_authorization_requires_exact_target_scope_and_current_approval (test_tcg_ro.CodecTests.test_erase_authorization_requires_exact_target_scope_and_current_approval) ... ok
+test_erasing_reset_is_separately_armed_and_uses_admin_sp_revert (test_tcg_ro.CodecTests.test_erasing_reset_is_separately_armed_and_uses_admin_sp_revert) ... ok
+test_extractor_rejects_unknown_images_and_never_overwrites_a_secret (test_tcg_ro.CodecTests.test_extractor_rejects_unknown_images_and_never_overwrites_a_secret) ... ok
+test_firmware_session_matches_raw_challenge_and_authority_encoding (test_tcg_ro.CodecTests.test_firmware_session_matches_raw_challenge_and_authority_encoding) ... ok
+test_format_guard_rejects_primary_internal_ambiguous_and_wrong_serial (test_tcg_ro.CodecTests.test_format_guard_rejects_primary_internal_ambiguous_and_wrong_serial) ... ok
+test_live_transport_reset_guard_requires_one_authenticated_sid_session (test_tcg_ro.CodecTests.test_live_transport_reset_guard_requires_one_authenticated_sid_session) ... ok
+test_local_extraction_matches_the_successfully_tested_private_challenge (test_tcg_ro.CodecTests.test_local_extraction_matches_the_successfully_tested_private_challenge) ... ok
+test_no_write_or_authentication_body_can_be_wrapped (test_tcg_ro.CodecTests.test_no_write_or_authentication_body_can_be_wrapped) ... ok
+test_packet_has_exact_lengths_and_session_byte_order (test_tcg_ro.CodecTests.test_packet_has_exact_lengths_and_session_byte_order) ... ok
+test_private_scripts_compile_without_opening_a_device (test_tcg_ro.CodecTests.test_private_scripts_compile_without_opening_a_device) ... ok
+test_range_audit_is_bounded_and_can_decode_large_lba_values (test_tcg_ro.CodecTests.test_range_audit_is_bounded_and_can_decode_large_lba_values) ... ok
+test_revert_requires_explicit_enable_and_can_only_keep_global_key (test_tcg_ro.CodecTests.test_revert_requires_explicit_enable_and_can_only_keep_global_key) ... ok
+test_start_session_is_anonymous_and_gets_are_restricted (test_tcg_ro.CodecTests.test_start_session_is_anonymous_and_gets_are_restricted) ... ok
+test_status_codes_are_not_confused_with_transport_success (test_tcg_ro.CodecTests.test_status_codes_are_not_confused_with_transport_success) ... ok
+test_truncated_and_misaddressed_responses_rejected (test_tcg_ro.CodecTests.test_truncated_and_misaddressed_responses_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.025s
+
+OK

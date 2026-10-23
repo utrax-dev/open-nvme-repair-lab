@@ -1,0 +1,35 @@
+{
+  "status": "factory_reset_verified_performance_unresolved",
+  "ssd_model": "WD_BLACK SN850XE 4000GB",
+  "ssd_firmware": "624131EX",
+  "bridge_vid_pid": "174c:2463",
+  "bridge_firmware": "250717850000",
+  "connection": "Mac -> Brydge ProDock TB4 -> UGREEN; USB4 40 Gb/s reported",
+  "reset": {
+    "method": "AdminSP.Revert",
+    "method_status": 0,
+    "requests_sent": 1,
+    "post_reset_lifecycle": 8,
+    "locking_enabled": false,
+    "locked": false,
+    "sid_matches_msid": true
+  },
+  "performance_MB_per_second": {
+    "initial_blackmagic_write": 255.6,
+    "initial_blackmagic_read": 317.2,
+    "post_reset_write_full_flush": 268.3,
+    "post_reset_first_read": 334.2,
+    "post_reset_repeated_read_with_cache_caveat": 975.9,
+    "post_reset_parallel_first_read": 330.4,
+    "post_reset_parallel_write_full_flush": 268.6
+  },
+  "parallel_read_physical_bytes": 4297048064,
+  "parallel_read_operations": 8199,
+  "parallel_read_errors_added": 0,
+  "parallel_read_retries_added": 0,
+  "full_4GiB_hash_checks_passed": 2,
+  "filesystem_verification_exit_code": 0,
+  "direct_host_comparison_performed": false,
+  "full_speed_fix_proven": false,
+  "intentional_manufacturer_throttle_proven": false
+}

@@ -1,101 +1,74 @@
-# UTRAX Secondary Drive: diagnostic findings
+# SN850XE recovery: reset verified, speed problem unresolved
 
-Investigation date: 22 October 2026, America/New_York. This report concerns the secondary SSD. The separate primary UTRAX volume was not a diagnostic target.
+The firmware-derived credential recovered from the original SanDisk bridge authenticated successfully to the owner's WD_BLACK SN850XE 4000GB, firmware 624131EX, as both LockingSP/Admin1 and AdminSP/SID. A standard SID-authenticated factory reset then completed without a PSID. **That reset did not restore normal throughput in the tested setup.**
 
-## Current result
+## Before and after
 
-**NVMe security command access from this Mac is verified. A performance repair is not yet verified.** We built and exercised a route through the stock UGREEN bridge to the SSD's NVMe administrative queue. The SSD accepted restricted Security Receive/Send commands, TCG Properties, anonymous AdminSP and LockingSP sessions, and information GETs.
+| Measurement | Result | Limit |
+| --- | --- | --- |
+| Initial Blackmagic screenshot | 255.6 MB/s write; 317.2 MB/s read | Owner screenshot; secondary target checked |
+| Pre-reset 4 GiB file check | 207.5 MB/s write including full flush; 127.7 / 934.5 MB/s reads | Heavy host load; possible concurrent Blackmagic I/O; not a clean control |
+| Post-reset 4 GiB file check | 268.3 MB/s write including full flush; 334.2 / 975.9 MB/s reads | File I/O; repeated read can include cache effects |
+| Post-reset first read, 8 parallel workers | 330.4 MB/s | Physical-device counters increased by 4,297,048,064 bytes across 8,199 reads |
+| Parallel-test write including full flush | 268.6 MB/s | Same bounded 4 GiB file method |
+| File integrity | Both post-reset full 4 GiB SHA-256 comparisons matched | Limited test-file integrity; not a full-surface test |
 
-OPAL is enabled, but the SSD was **unlocked** when queried. That establishes its security configuration; it does not establish a speed restriction or explain the slowdown.
+No added physical read errors or retries were reported during the parallel read. The faster repeated-read number is not evidence of sustained NVMe media throughput. Parallelism did not lift the measured ceiling.
 
-The SID differs from the factory MSID. An anonymous session could read the 32-byte MSID, but one authentication check with that value did not obtain Admin1 access. John reports that the bare module has no label, so no printed PSID is available. The standard OPAL reset route therefore lacks a valid administrator credential or physical reset credential. No alternative credential-free reset has been verified for this firmware.
+## Device and connection
 
-## Hardware and performance
+- SSD: WD_BLACK SN850XE 4000GB, firmware 624131EX; 4,000,787,030,016 bytes.
+- Replacement enclosure: UGREEN 174c:2463; stock bridge firmware bytes 250717850000.
+- Connection used for speed tests: Mac → Brydge ProDock TB4 → UGREEN. macOS reports USB4 40 Gb/s and the SSD's PCIe link as Gen4 x4, 16 GT/s. PCIe link-status properties also report Gen4 x4 at the SSD and adjacent bridge.
+- The same connection path was retained. A direct-to-Mac or other-host comparison was not performed.
+- USB-A was used only for Linux administrative command access, not for these performance results.
+- The original empty SanDisk controller's firmware was readable. It was not tested with the NVMe reinstalled during this phase, so its exact original failure remains unproven.
 
-| Item | Observed result |
-| --- | --- |
-| SSD | WD_BLACK SN850XE 4000GB |
-| SSD firmware | 624131EX |
-| Replacement bridge | UGREEN, USB 174c:2463, ASMedia family |
-| Bridge firmware bytes | 250717850000 |
-| Filesystem | APFS, 4 TB, almost empty at initial inspection |
-| Initial Blackmagic screenshot | 255.6 MB/s write, 317.2 MB/s read |
-| Initial benchmark target | UTRAX Secondary Drive, verified in target selector |
-| USB4 topology | Mac → Brydge ProDock TB4 → UGREEN; 40 Gb/s links reported |
-| NVMe PCIe link | x4, 16.0 GT/s; TRIM supported |
-| Earlier supplemental reads | 282.8 then 974.4 MB/s over 512 MiB; matching SHA-256; timings included hashing and are not a sustained maximum-speed result |
-| Post-diagnostic USB4 benchmark | Queued; no completed result yet |
+A 40 Gb/s link has a raw ceiling of 5,000 MB/s before overhead and cannot carry 7,000 MB/s. The 40 Gb/s negotiation itself does not prove available end-to-end bandwidth.
 
-At the time the new benchmark was queued, host load averages were approximately 46.55 / 40.31 / 28.85 and macOS reported 29,452 MB of swap in use. This is a substantial confounder for both throughput and responsiveness; it is not proof that the SSD caused the load or that the load explains every historical symptom. The shared runner had other work ahead of this benchmark.
+## Credential recovery evidence
 
-A 40 Gb/s link has raw bandwidth of 5,000 MB/s before overhead. It cannot deliver a 7,000 MB/s media transfer rate. Actual throughput needs measurement. USB-A was used for Linux command access; its low negotiated speed was not used to judge SSD performance.
+The extracted 8051 code image has SHA-256 0468b822080cc3b26de98b935175495120c1ad5046e505d4325e73a412ddac20. Offsets below refer to that code image, not the raw flash container.
 
-The original SanDisk controller was connected **without the NVMe installed**. Its USB identification and bridge firmware were readable. Empty capacity in this condition does not independently prove why it failed with the SSD installed.
+1. The XDATA initialization record at 0x091E initializes five bytes at 0x0CA4.
+2. The LockingSP/Admin1 path around 0x7FA1 and AdminSP/SID path around 0x7FB4 select that source.
+3. The constructor around 0x88F3/0x8914 copies five bytes into a zero-filled 32-byte challenge.
+4. An exact challenge constructed locally was accepted by both authenticated StartSession operations, with TCG method status zero. Privileged table reads independently corroborated Admin1 access.
+5. A conditional initialization path at 0x33C8 through 0xF6B6 references SID setup and checks a FIX1 marker. Its execution with the original assembled drive was not traced; this path is not evidence of a speed-limiting instruction.
 
-## Earlier health and filesystem evidence
+No credential bytes, vendor firmware, decompiled vendor source or individual device serials are included in this repository.
 
-Native macOS SMART reads returned PASSED, critical warning 0, 100% available spare, 0% endurance used, zero media/data-integrity errors, and zero NVMe error-log entries. Observed temperatures were approximately 36–39°C. A fresh read after USB-C reconnection again returned SMART PASSED, critical warning 0, 100% spare, 0% endurance used, zero media errors, zero NVMe error-log entries and 39°C. The recorded unsafe-shutdown counter was 81 at that read (77 at initial inspection); power removals/reconnections occurred during this investigation, and the count does not identify the original fault.
+## Authenticated state and reset
 
-Volume verification with diskutil/fsck_apfs and partition-map verification passed. No full-surface test or complete hardware reliability certification was performed. The reported freezing has not been reproduced and explained.
+Before reset, LockingSP lifecycle was 9 (manufactured-active). The global range was unlocked, with read/write locking disabled. An additional range of 65,535 512-byte sectors, approximately 32 MiB near the device end, was configured but also unlocked. Ranges 2–8 were unconfigured.
 
-## Direct security-query evidence
+The owner explicitly approved erasing the entire secondary SSD and recreating APFS. The tool required exact enclosure and SSD identities, fresh Identify, one accepted SID session and a separate erase authorization. It sent **AdminSP.Revert once**. The method returned status zero and subsequent Discovery0 reported LockingEnabled=false and Locked=false.
 
-Interpreted data below came from successful NVMe completions. TCG method responses were checked separately from transport status.
+A separate information query after restoring the original controller registers confirmed lifecycle 8 (manufactured-inactive), locking disabled and SID equal to MSID. The standard factory state was therefore corroborated separately from the reset response.
 
-| Query | Result |
-| --- | --- |
-| Security protocols advertised | 0x00, 0x01, 0x02; no ATA Device Server Password protocol 0xEF |
-| LockingSupported / LockingEnabled | Yes / Yes |
-| Locked | No |
-| MediaEncryption | Yes |
-| MBR shadowing enabled | No |
-| OPAL V2 ComID | 0x7ffe |
-| SID differs from MSID | Yes |
-| SID blocked by Block SID command | No |
-| Properties exchange | Successful; maximum command/response ComPacket size 2048 |
-| Anonymous AdminSP session | Successful |
-| LockingSP LifeCycleState | 9, manufactured active |
-| Factory MSID GET | Successful, 32 bytes; credential not logged or saved |
-| Anonymous LockingSP session | Successful |
-| Global locking-range GET | Method succeeded but returned no named column values to the anonymous session; not evidence that the range is disabled |
-| One factory-value Admin1 check | Access not obtained; no guessing loop |
-| Get Features power state | PS0 after controller reinitialization; not the earlier benchmark's state |
+A local completion-record writer raised TypeError after the accepted reset and state readback. We recovered the record from the retained transcript, corrected the writer and added a regression test. The reset was not repeated. All 18 private lab checks then passed; the portable repository test run omits the unbundled private firmware fixture.
 
-The first session request used Write=False and returned INVALID_PARAMETER. OPAL support for that session type is optional. The standard Write=True request succeeded. Our tool restricted in-session operations to explicit GETs, EndSession and the separately enabled one-time factory-value authentication check. It did not set credentials or request a revert.
+RevertSP with KeepGlobalRangeKey=true was not selected: it preserves only the global key, while this SSD had another configured range. AdminSP.Revert was treated as a full data erase. APFS/GUID was subsequently recreated as UTRAX Secondary Drive using fresh physical identity, capacity and external whole-device guards. The separate primary UTRAX drive was never a reset or format target.
 
-## How command access was obtained
+## Health and reliability limits
 
-1. Created a small Alpine ARM64 Linux machine in the existing OrbStack installation.
-2. Passed only the UGREEN to that machine over USB-A, excluding UAS and usb-storage for its VID/PID.
-3. Used libusb Bulk-Only Transport and the stock bridge's XDATA diagnostic interface. Ordinary ASMedia pass-through did not expose the required security commands.
-4. Verified bridge/SSD identity and firmware. Privately analyzed bridge firmware to identify PCIe request registers, request tag, byte order and the NVMe BAR.
-5. Temporarily configured isolated NVMe administrative queues in bridge RAM. Checked NVMe completions and TCG responses.
-6. Closed successful sessions, restored and read back the original NVMe controller registers, detached the UGREEN, restored the empty USB-storage quirk setting, and stopped only the diagnostic Linux machine.
-7. John reconnected the UGREEN over USB-C. macOS again reported the secondary APFS volume, NVMe Gen4 x4 and USB4 topology.
+Post-reset SMART passed: critical warning 0, 36°C, 100% available spare, 0% endurance used and zero media/data-integrity errors. The cumulative NVMe error-log counter changed from 0 to 1 during the diagnostic/reset phase; no detailed entry was present in the subsequent 16-entry error-log read, so its command/cause was not identified. This is retained rather than reported as a zero-error history.
 
-This changed volatile bridge RAM, PCIe request registers and NVMe controller/queue state. It was not a purely passive inspection. No drive firmware was flashed, no PIN was changed, and no format, sanitize or OPAL revert was requested. An unsuccessful authentication can affect the authentication retry counter. Physical reconnection rebuilt normal I/O queues after diagnostics.
+The power-cycle count was already 41,422 before the reset phase and became 41,425 afterward. The unsafe-shutdown count changed from 81 to 84 as physical reconnects occurred. Those counters do not identify the original fault.
 
-Seven focused offline packet-codec checks passed, covering command restrictions, anonymous session construction, exact packet lengths/byte order, bounded factory-value authentication, method-status decoding, malformed/truncated responses and atom boundaries. These are protocol checks, not proof of a performance repair.
+The new APFS volume and container passed diskutil verification with exit code 0. A 32 MiB read after a 60-second wait completed in 0.103 seconds, involved 33,558,528 physical read bytes, and matched its full hash with no new read errors/retries. Fifteen background physical reads and 38 writes occurred during the wait, so this was not a proven fully idle-device wake test. The reported intermittent freezing has not been reproduced and explained. These checks do not certify the SSD's entire surface or long-term reliability.
 
-## Assessment of the supplied unlocker
+## What the evidence supports
 
-[dex6/sed-opal-unlocker](https://github.com/dex6/sed-opal-unlocker) is a Linux frontend to the kernel OPAL interface. Its implemented operations use an existing Admin1 password to lock/unlock the global range, control MBR shadowing and save credentials for sleep support. It does not recover a password, supply a PSID, implement a performance-throttle removal operation, or provide this enclosure's missing transport path. Its setup examples enable OPAL locking; they are not an appropriate repair procedure here.
+- A credential from this original bridge firmware grants actual Admin1 and SID access to this SSD.
+- A PSID is not required for the validated SID-authenticated factory reset.
+- The simple claim that removing the observed OPAL configuration would restore speed is not supported by the result: the security state was reset, but throughput remained around 270 MB/s write and 330 MB/s first read.
+- A remaining device, enclosure, host or connection-path bottleneck has not been isolated. There is no demonstrated full-speed repair and no proven manufacturer intent to impose an anti-shucking cap.
 
-## What remains unresolved
+## Primary protocol references
 
-- The reason for low sustained throughput and the reported freezes.
-- Whether reverting/disabling OPAL would improve performance. No OPAL-disabled before/after comparison exists.
-- A valid reset credential or a separately verified alternative procedure for this firmware.
-- Manufacturer intent. OPAL being active, or a hypothetical successful software change, does not by itself establish an intentional anti-repair speed policy.
-
-## Primary references
-
-- [Unlocker implemented operations](https://github.com/dex6/sed-opal-unlocker/blob/master/sed-opal-unlocker.c)
-- [TCG OPAL specification](https://trustedcomputinggroup.org/wp-content/uploads/TCG-Storage-Opal-SSC-v2p02-r1p0_pub24jan2022.pdf)
-- [TCG Block SID specification](https://trustedcomputinggroup.org/wp-content/uploads/TCG_Storage_BlockIDAuth_v1p01_r1p14_13jan2021.pdf)
-- [SanDisk PSID/MSID and OEM-label limitations](https://support-en.sandisk.com/app/answers/detailweb/a_id/34411/related/1)
-- [Drive Trust Alliance PSID revert](https://github.com/Drive-Trust-Alliance/sedutil/wiki/PSID-Revert)
-- [Drive Trust Alliance Remove OPAL](https://github.com/Drive-Trust-Alliance/sedutil/wiki/Remove-OPAL)
-- [Drive Trust Alliance session/authentication implementation](https://github.com/Drive-Trust-Alliance/sedutil/blob/master/Common/DtaSession.cpp)
-- [ASMedia USB/PCIe research](https://github.com/cyrozap/usb-to-pcie-re/blob/master/ASM2x6x/doc/Notes.md)
+- [Drive Trust Alliance reset implementation](https://github.com/Drive-Trust-Alliance/sedutil/blob/master/Common/DtaDevOpal.cpp)
+- [Drive Trust Alliance command semantics](https://github.com/Drive-Trust-Alliance/sedutil/blob/master/Common/DtaOptions.cpp)
+- [TCG Opal specification](https://trustedcomputinggroup.org/wp-content/uploads/TCG-Storage-Opal-SSC-v2p02-r1p0_pub24jan2022.pdf)
+- [ASMedia bridge research](https://github.com/cyrozap/usb-to-pcie-re)
 - [OrbStack USB passthrough](https://docs.orbstack.dev/features/usb)

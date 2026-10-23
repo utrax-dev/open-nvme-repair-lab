@@ -1,0 +1,11 @@
+{"host_load_averages": [6.74658203125, 9.84228515625, 15.7490234375], "measurement_started_unix": 1792721698.727822}
+{"test": "4 GiB sequential file write, first read with 8 parallel workers, separate SHA-256 check", "volume": "UTRAX Secondary Drive", "cache_policy": "macOS F_NOCACHE requested", "measurement_limit": "file I/O only; device caching and other traffic may affect results"}
+{"write_progress_GiB": 1}
+{"write_progress_GiB": 2}
+{"write_progress_GiB": 3}
+{"write_progress_GiB": 4}
+{"phase": "write_and_full_flush", "bytes": 4294967296, "seconds": 15.99284, "MB_per_second": 268.6}
+{"phase": "first_read_8_parallel_workers_without_hashing", "bytes": 4294967296, "seconds": 12.99928, "MB_per_second": 330.4}
+{"parallel_read_physical_bytes": 4297048064, "parallel_read_physical_operations": 8199, "read_errors_added": 0, "read_retries_added": 0}
+{"verification": "full 4 GiB SHA-256 matched", "sha256": "9e27c4f868776b7b5ac2c032008165d5b1ad7dc952de887881263fe0901a067c"}
+Removed only the temporary benchmark file created by this run.

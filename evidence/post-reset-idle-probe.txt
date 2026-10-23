@@ -1,0 +1,4 @@
+{"host_load_averages": [17.4482421875, 16.251953125, 16.4130859375], "measurement_started_unix": 1792722252.9540532}
+{"idle_probe_started": true, "requested_idle_seconds": 60, "file_bytes": 33554432}
+{"idle_seconds_observed": 60.074, "wake_read_seconds": 0.103115, "file_bytes": 33554432, "physical_read_bytes": 33558528, "background_physical_reads_during_idle": 15, "background_physical_writes_during_idle": 38, "read_errors_added": 0, "read_retries_added": 0, "full_file_hash": "matched"}
+Removed only this probe temporary file.

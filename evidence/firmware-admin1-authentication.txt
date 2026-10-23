@@ -1,0 +1,23 @@
+{"transport": "BOT", "interface": 0, "alternate": 0, "in_endpoint": 129, "out_endpoint": 2}
+{"model": "WD_BLACK SN850XE 4000GB", "firmware": "624131EX", "identity": "fresh Identify Controller verified", "bridge_firmware": "250717850000"}
+{"controller_status": "0x0", "waiting_for_ready": false}
+{"controller_status": "0x1", "waiting_for_ready": true}
+{"nvme_diagnostic_opcode": "0x82", "cdw10": "0x1000100", "cid": 61441, "sqid": 0, "sqhead": 1, "status": "0x0", "result": "0x0"}
+{"locking_enabled": true, "locked": false, "sid_differs_from_msid": true, "sid_authentication_blocked": false}
+{"nvme_diagnostic_opcode": "0x81", "cdw10": "0x17ffe00", "cid": 61442, "sqid": 0, "sqhead": 2, "status": "0x0", "result": "0x0"}
+{"nvme_diagnostic_opcode": "0x82", "cdw10": "0x17ffe00", "cid": 61443, "sqid": 0, "sqhead": 3, "status": "0x0", "result": "0x0"}
+{"properties_method_status": 0}
+{"tcg_properties": {"MaxComPacketSize": 2048, "MaxResponseComPacketSize": 2048, "MaxPacketSize": 2028, "MaxIndTokenSize": 1992, "MaxPackets": 1, "MaxSubpackets": 1, "MaxMethods": 1, "MaxSessions": 1, "MaxAuthentications": 2, "MaxTransactionLimit": 1, "DefSessionTimeout": 360000, "ContinuedTokens": 0, "SequenceNumbers": 0, "AckNak": 0, "Asynchronous": 0}}
+{"nvme_diagnostic_opcode": "0x81", "cdw10": "0x17ffe00", "cid": 61444, "sqid": 0, "sqhead": 0, "status": "0x0", "result": "0x0"}
+{"nvme_diagnostic_opcode": "0x82", "cdw10": "0x17ffe00", "cid": 61445, "sqid": 0, "sqhead": 1, "status": "0x0", "result": "0x0"}
+{"session_sp": "LockingSP", "authority": "Admin1, firmware candidate", "method_status": 0}
+{"nvme_diagnostic_opcode": "0x81", "cdw10": "0x17ffe00", "cid": 61446, "sqid": 0, "sqhead": 2, "status": "0x0", "result": "0x0"}
+{"nvme_diagnostic_opcode": "0x82", "cdw10": "0x17ffe00", "cid": 61447, "sqid": 0, "sqhead": 3, "status": "0x0", "result": "0x0"}
+{"anonymous_get": "global_locking_range", "method_status": 0, "columns": {"3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0}}
+{"nvme_diagnostic_opcode": "0x81", "cdw10": "0x17ffe00", "cid": 61448, "sqid": 0, "sqhead": 0, "status": "0x0", "result": "0x0"}
+{"nvme_diagnostic_opcode": "0x82", "cdw10": "0x17ffe00", "cid": 61449, "sqid": 0, "sqhead": 1, "status": "0x0", "result": "0x0"}
+Anonymous session closed.
+Information queries completed. No PIN changes, revert, or erase requested.
+{"controller_status": "0x0", "waiting_for_ready": false}
+{"controller_status": "0x1", "waiting_for_ready": true}
+Original controller registers restored and verified. Physical reconnect needed for normal I/O queues.

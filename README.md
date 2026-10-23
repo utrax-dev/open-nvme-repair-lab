@@ -1,70 +1,94 @@
 # Open NVMe Repair Lab
 
-Evidence and diagnostic research for a WD_BLACK SN850XE 4 TB removed from a SanDisk portable SSD and installed in a UGREEN enclosure on a Mac.
+A Mac-based investigation of a WD_BLACK SN850XE 4 TB removed from a SanDisk Extreme Pro portable SSD.
 
-**Current outcome: NVMe/OPAL diagnostic access verified; performance repair unresolved.** This repository is not an unlock utility or a claim that an intentional speed limit has been proved.
+**Validated: recover the credential from the original bridge firmware, authenticate as Admin1/SID, and perform the standard factory reset without a PSID.**
 
-## What was observed
+**Not fixed: the tested SSD still transfers at approximately 270 MB/s write and 330 MB/s first read in its UGREEN/dock setup after that reset. This repository is not a full-speed unlock claim.**
 
-| Observation | Evidence level |
+## What this project provides
+
+- An offline extractor for the exact reviewed original bridge code image. It writes the reconstructed 32-byte challenge to a new private file and never prints it.
+- A restricted TCG packet codec and experimental Linux/libusb transport for the tested UGREEN firmware. It can query OPAL state, authenticate with the extracted challenge, and issue one separately authorized factory reset.
+- Target, firmware, approval and completion guards for the reset and subsequent macOS APFS recreation.
+- Bounded file benchmarks with full-file integrity checks. The parallel test also records physical-device I/O counters to expose cache effects.
+- Sanitized authentication, reset and benchmark evidence, including the local result-writer error discovered after the reset and its tested correction.
+
+No vendor firmware, vendor decompiled code, credential bytes or individual device serials are distributed.
+
+## Tested hardware
+
+| Component | Exact tested value |
 | --- | --- |
-| Initial Blackmagic result: 255.6 MB/s write, 317.2 MB/s read | User screenshot; target verified in the app |
-| SSD: SN850XE 4000GB, firmware 624131EX | Identify Controller |
-| Replacement bridge: 174c:2463, firmware bytes 250717850000 | USB identification and bridge reads |
-| USB4 40 Gb/s topology and NVMe Gen4 x4 | macOS system profiler |
-| SMART and APFS verification passed at inspection | Health and filesystem diagnostics; not a complete reliability test |
-| OPAL enabled, media currently unlocked | Successful NVMe Security Receive / TCG Discovery0 |
-| SID differs from factory MSID | TCG Block SID feature descriptor |
-| Anonymous security sessions and factory MSID read work | Successful TCG method responses |
-| One factory-value check did not obtain Admin1 access | TCG Authenticate response interpreted separately from transport status |
-| Module has no label / visible PSID | Owner physical inspection |
-| Removing OPAL restores full speed | **Not demonstrated** |
-| Manufacturer deliberately imposed an anti-shucking speed cap | **Not established** |
+| SSD | WD_BLACK SN850XE 4000GB |
+| SSD firmware | 624131EX |
+| Capacity | 4,000,787,030,016 bytes |
+| UGREEN USB VID:PID | 174c:2463 |
+| UGREEN bridge firmware bytes | 250717850000 |
+| Original code image size | 65,368 bytes |
+| Original code SHA-256 | 0468b822080cc3b26de98b935175495120c1ad5046e505d4325e73a412ddac20 |
+| Host / diagnostic guest | Apple Silicon Mac / Alpine ARM64 in OrbStack |
 
-The USB4 link's raw 40 Gb/s bandwidth is 5,000 MB/s before overhead. It cannot carry 7,000 MB/s. An achievable sustained maximum still needs measurement.
+The hardware-command prototype deliberately rejects other identities/firmware and is intended for advanced, supervised repair research. It changes volatile bridge RAM and NVMe administrative queues. It requires unbound Linux storage drivers and a physical reconnect after a completed diagnostic session. **The separately enabled factory-reset mode destroys all target SSD data.**
 
-## Process used
+## Results
 
-1. Identify the exact secondary volume, SSD and bridge. Keep unrelated drives outside the diagnostic target.
-2. Save health, filesystem, topology and performance evidence before changing anything.
-3. On this Mac, run a small Alpine ARM64 guest in OrbStack and expose the UGREEN over USB-A. USB-A here is a command-access route, not a speed benchmark.
-4. Exclude both UAS and usb-storage for the bridge VID/PID, then claim its Bulk-Only Transport interface with libusb.
-5. Analyze the stock bridge diagnostic protocol. Ordinary ASMedia pass-through did not offer the required NVMe security commands on the tested firmware.
-6. Through verified XDATA/PCIe request registers, temporarily configure isolated NVMe administrative queues in bridge RAM. Query Discovery0, TCG Properties and allowlisted information tables. Validate NVMe completion identity/status and TCG method status separately.
-7. Restore and read back original controller registers, close sessions, detach the enclosure, restore driver quirks and stop only the diagnostic VM.
-8. Reconnect over USB-C for normal I/O and a new performance comparison.
+| Observation | Verified result |
+| --- | --- |
+| Initial Blackmagic | 255.6 MB/s write; 317.2 MB/s read |
+| Firmware-derived Admin1 authentication | Accepted; privileged range tables readable |
+| Firmware-derived SID authentication | Accepted in AdminSP |
+| Factory reset without PSID | Accepted once; TCG method status 0 |
+| Independent post-reset state | LockingSP lifecycle 8, locking disabled, SID equal to MSID |
+| New APFS volume/container verification | Passed, exit code 0 |
+| Post-reset sequential file test | 268.3 MB/s write with full flush; 334.2 MB/s first read |
+| Post-reset 8-worker first read | 330.4 MB/s; physical counters confirmed about 4.30 GB read |
+| Integrity | Both complete post-reset 4 GiB hashes matched |
+| Added read errors/retries in parallel test | 0 / 0 |
+| Full-speed repair / intentional anti-shucking cap | Not established |
 
-**The live bridge prototype remains private pending a safety review.** It changes volatile bridge/controller state and needs a physical reconnect afterward. A raw vendor-command script built for another firmware can corrupt controller state; this is not a generic copy-and-run recipe. This public-preparation folder contains only sanitized findings at present. It does not contain vendor firmware, decompiled code, device serial numbers, credentials or an erasing reset command.
+The repeated file read reached 975.9 MB/s, but it may include cache effects and is not a demonstrated media-transfer maximum. A 40 Gb/s USB4 link itself has a raw ceiling of 5,000 MB/s before overhead; 7,000 MB/s cannot traverse that link.
 
-## Why the linked unlocker does not solve this case
+## Use and evidence
 
-[`dex6/sed-opal-unlocker`](https://github.com/dex6/sed-opal-unlocker) is a useful Linux OPAL frontend. Its lock/unlock operations need an existing Admin1 password. It does not recover the password, provide a missing PSID, or remove a documented performance throttle. This drive was already unlocked during the verified query.
-
-Its setup examples enable OPAL locking; applying those examples would not be a repair procedure for this case.
-
-## Current reset barrier
-
-The factory MSID was readable but did not obtain Admin1 access in a single check. The SID also differs from MSID. No printed PSID is available on the bare module. The standard reset route therefore lacks its required credential. A new operating system or an additional kernel permission does not supply that credential.
-
-This does not rule out every future manufacturer or firmware-specific procedure. It describes the tested standard route and its concrete missing requirement. A supported alternative must be verified for firmware 624131EX before it is described as a solution.
-
-## Evidence and publication status
-
-- [Sanitized security-query transcript](evidence/security-session-query.txt)
-- [Case report](docs/diagnostic-report.md)
+- [Reproduction procedure](docs/reproduction.md)
+- [Detailed case report and limitations](docs/diagnostic-report.md)
 - [LinkedIn draft](docs/linkedin-draft.md)
+- [Admin1 authentication](evidence/firmware-admin1-authentication.txt)
+- [SID authentication](evidence/firmware-sid-authentication.txt)
+- [Authenticated range audit](evidence/authenticated-range-audit.txt)
+- [Accepted factory reset, including result-writer error](evidence/approved-factory-reset.txt)
+- [Independent post-reset query](evidence/post-reset-security-query.txt)
+- [Post-reset sequential file test](evidence/post-reset-file-benchmark.txt)
+- [Post-reset parallel test and physical counters](evidence/post-reset-parallel-benchmark.txt)
+- [18 passing private-lab safeguard tests](evidence/post-reset-safety-tests.txt)
 
-This is a local preparation repository. Publication and a working repair release remain pending. If later work restores performance, add the exact intervention, firmware, connection, reproducible benchmark and integrity result before changing that status.
+Run the offline checks with Python 3:
 
-## Sources and credit
+```sh
+python3 -m unittest discover -s tools -p 'test_*.py' -v
+```
 
-- [Drive Trust Alliance sedutil](https://github.com/Drive-Trust-Alliance/sedutil): OPAL protocol and standard reset workflows.
-- [TCG OPAL specification](https://trustedcomputinggroup.org/wp-content/uploads/TCG-Storage-Opal-SSC-v2p02-r1p0_pub24jan2022.pdf): session and security-provider behavior.
-- [TCG Block SID specification](https://trustedcomputinggroup.org/wp-content/uploads/TCG_Storage_BlockIDAuth_v1p01_r1p14_13jan2021.pdf): SID/MSID state definition.
-- [ASMedia USB-to-PCIe research](https://github.com/cyrozap/usb-to-pcie-re): documented bridge protocol research.
-- [OrbStack USB documentation](https://docs.orbstack.dev/features/usb): Mac-hosted Linux USB passthrough.
-- [SanDisk PSID/MSID guidance](https://support-en.sandisk.com/app/answers/detailweb/a_id/34411/related/1): printed PSID and OEM limitations.
+The fixture containing the owner's firmware and recovered challenge is deliberately absent from the repository, so its one private-fixture comparison is skipped in a clean checkout. The remaining tests cover packet encodings, malformed responses, one-time reset arming, approval scope/age, private completion-record writes, and rejection of an internal, primary, ambiguous or wrong-serial device.
+
+## Why a PSID was not required
+
+The original bridge's 8051 startup initializer at code offset 0x091E provides five bytes to XDATA 0x0CA4. Its session constructor places them in a zero-filled 32-byte challenge. That exact challenge authenticated to this SSD as both Admin1 and SID. Standard AdminSP.Revert can then use the accepted SID authority; a PSID is an alternative recovery authority, not a prerequisite when SID access is available.
+
+The global range was already unlocked. A second configured range covered about 32 MiB near the device end. We did not present RevertSP with KeepGlobalRangeKey=true as preserving every sector: it preserves the global key, while other range keys can be erased.
 
 ## Right to repair
 
-Owners should have documented ways to diagnose, reset and reuse storage hardware after an enclosure fails. Missing recovery information and restricted diagnostic transports increase repair costs and can turn reusable components into e-waste. Those are concrete reasons to demand better repair access; an allegation of deliberate performance throttling needs its own causal evidence.
+Owners should have documented diagnostics, reset access and the information needed to reuse their storage after an enclosure fails. Recovering an administrator credential should not require reverse engineering a failed bridge. Open tools and reproducible evidence can reduce avoidable replacement and e-waste.
+
+That position does not require an unsupported claim about manufacturer intent. This case proves a credential-recovery and reset route. Its performance result also shows that removing the observed OPAL configuration did not remove the measured slowdown.
+
+## References and credit
+
+- [TCG Opal specification](https://trustedcomputinggroup.org/wp-content/uploads/TCG-Storage-Opal-SSC-v2p02-r1p0_pub24jan2022.pdf)
+- [Drive Trust Alliance sedutil](https://github.com/Drive-Trust-Alliance/sedutil), especially its [reset implementation](https://github.com/Drive-Trust-Alliance/sedutil/blob/master/Common/DtaDevOpal.cpp) and [command semantics](https://github.com/Drive-Trust-Alliance/sedutil/blob/master/Common/DtaOptions.cpp)
+- [ASMedia USB-to-PCIe research](https://github.com/cyrozap/usb-to-pcie-re)
+- [OrbStack USB passthrough](https://docs.orbstack.dev/features/usb)
+- [dex6/sed-opal-unlocker](https://github.com/dex6/sed-opal-unlocker), an OPAL frontend that needs an existing password and does not recover this case's credential or transport
+
+The Python code here is an independent implementation of protocol structures and the case-specific bridge route. Referenced upstream source and vendor firmware are not bundled.

@@ -8,3 +8,7 @@ __pycache__/
 *.log
 private/
 credentials/
+
+private-*
+secondary-after-reset-volume.json
+*.plist

@@ -1,21 +1,23 @@
-# LinkedIn draft — investigation remains open
+# LinkedIn draft
 
-Draft only. No performance repair is claimed. Update the measured result and repository URL after the investigation reaches a publishable outcome.
+Draft only. No post has been published. Add the repository link after publication.
 
 ---
 
 A failed SSD enclosure should not turn a reusable NVMe module into e-waste.
 
-I moved the NVMe from a SanDisk portable SSD into a replacement UGREEN enclosure. Performance remained far below expectations: the initial Blackmagic result was about 256 MB/s write and 317 MB/s read.
+When the controller in my SanDisk Extreme Pro appeared to fail, I moved its 4 TB NVMe into a UGREEN enclosure. The initial benchmark was about 256 MB/s write and 317 MB/s read. The bare module had no visible recovery PSID.
 
-Getting a useful answer took more than swapping a cable or looking at a green SMART badge. Working from my Mac, we used a small Linux guest, USB passthrough, stock bridge firmware analysis and a custom diagnostic transport to reach the SSD's NVMe security interface.
+Working from my Mac, we built a diagnostic route through a small Linux guest and the replacement bridge to the NVMe administrative queue. Then we traced the original SanDisk controller's firmware and recovered the credential its OPAL session code used.
 
-We verified the actual state: OPAL was enabled, the media was unlocked, and the SSD accepted standard security information requests. We could read the factory identifier, but it did not grant administrator access. The bare module had no label carrying a recovery PSID.
+That credential authenticated successfully as both Admin1 and SID. We performed the standard factory reset without a PSID, verified that the security provider returned to its factory state, and recreated APFS. The code, safeguards and evidence are being packaged openly.
 
-The performance problem is still unresolved. I will publish the measurements and procedure when there is a reproducible outcome. I will also distinguish what the firmware proves from what a forum discussion suggests.
+The result that matters: the reset worked, but it did not fix throughput. First reads still measured about 330 MB/s, including a parallel test whose physical-device counters confirmed more than 4 GB read from the SSD. Both full-file integrity checks passed.
 
-My position is firm: owners need practical access to diagnostics, documented recovery procedures and the information required to reuse the hardware they bought. An enclosure failure should not create a second, avoidable recovery barrier inside the storage module.
+I am publishing that negative result alongside the recovery method. It prevents the next owner from repeating a claim that an OPAL reset automatically unlocks 7 GB/s.
 
-Repairability should be designed into products. Open diagnostic access and usable recovery documentation belong in that design. They reduce repair costs, extend useful hardware life and keep working components out of the waste stream.
+My stance is straightforward: owners deserve documented diagnostic access, usable reset procedures and the information required to reuse the hardware they bought. Recovering a working administrator credential should not require reverse engineering a failed enclosure's firmware.
+
+Right to repair means practical access. Open tools and reproducible evidence extend hardware life, reduce avoidable replacement and keep reusable components out of the waste stream. Manufacturers should build that access into their products.
 
 #RightToRepair #NVMe #OpenSource #EWaste #HardwareRepair
